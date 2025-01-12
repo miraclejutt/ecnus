@@ -27,20 +27,20 @@ jobs:
         run: |
           python main.py
 
-      # Configure git
-      - name: Set up git
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+      # # Configure git
+      # - name: Set up git
+      #   run: |
+      #     git config --global user.name "GitHub Actions"
+      #     git config --global user.email "actions@github.com"
 
-      # Add changes to git
-      - name: Commit changes
-        run: |
-          git add .
-          git commit -m "Automated commit from GitHub Actions"
+      # # Add changes to git
+      # - name: Commit changes
+      #   run: |
+      #     git add .
+      #     git commit -m "Automated commit from GitHub Actions"
 
-      # Push changes back to the repository
-      - name: Push changes
-        run: git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # # Push changes back to the repository
+      # - name: Push changes
+      #   run: git push
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
