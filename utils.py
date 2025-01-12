@@ -132,6 +132,10 @@ def get_prediction(query_text, client, db, collection):
             mode_value = Counter(values).most_common(1)
             output[field] = mode_value[0][0] if mode_value else ""  # Get mode or empty string if not found
 
+        # change Status for WZS to '' if input is shorter than 10 words
+        if len(query_text) < 10:
+            output["Status for WZS"] = ""
+
         return output
 
     except Exception as e:
