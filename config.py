@@ -11,7 +11,7 @@ RAW_DATA = "raw_csv"
 
 CODA_TOKEN="6a34b485-5d04-42bd-813f-3d4f504e6436"
 CODA_DOC="YaHDNs9ZKc"
-CODA_TABLE="YaHDNs9ZKc"
+CODA_TABLE="grid-cNd5sipcEc"
 
 SHORT_IO_TOKEN="sk_iNQcNNiU7mWsw6eA"
 SHORT_IO_DOMAIN="source.www.ecnus.com"
