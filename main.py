@@ -175,15 +175,32 @@ def tag_data():
     except Exception as e:
         logging.exception(f"An error occurred in tag_data: {e}")
 
+def send_to_coda():
+    # Example usage:
+    try:
+        # Load the dataframe
+        df = pd.read_csv('interval_data.csv')
+        logging.info("CSV file 'interval_data.csv' loaded successfully.")
+        
+        # Insert dataframe to Coda
+        insert_dataframe_to_coda(df, CODA_TOKEN, CODA_DOC, CODA_TABLE)
+    except FileNotFoundError as file_err:
+        logging.error("File not found: %s", file_err)
+    except pd.errors.EmptyDataError as empty_err:
+        logging.error("No data: %s", empty_err)
+    except Exception as e:
+        logging.error("An unexpected error occurred while processing the CSV file: %s", e)
+
 def main():
     """
     Main function to orchestrate the pipeline for downloading, processing, and tagging data.
     """
     try:
         logging.info("Pipeline started.")
-        # download_data()
+        download_data()
         process_data()
         tag_data()
+        send_to_coda()
         logging.info("Pipeline completed successfully.")
     except Exception as e:
         logging.exception(f"An error occurred in the pipeline: {e}")

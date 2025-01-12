@@ -163,3 +163,41 @@ def shorten_url(long_url):
     except Exception as e:
         print(f"Error shortening URL {long_url}: {e}")
         return None  # Return None if the request fails
+
+def insert_dataframe_to_coda(dataframe, coda_token, doc_id, table_id):
+    headers = {'Authorization': f'Bearer {coda_token}'}
+    uri = f'https://coda.io/apis/v1/docs/{doc_id}/tables/{table_id}/rows'
+
+    try:
+        # Replace NaN values with empty strings
+        dataframe = dataframe.fillna('')
+
+        # Logging initial dataframe state
+        logging.info("Dataframe loaded with %d rows and %d columns.", len(dataframe), len(dataframe.columns))
+
+        # Create payload with all columns for each row
+        payload = {
+            'rows': [
+                {
+                    'cells': [
+                        {'column': column_name, 'value': str(row[column_name])}
+                        for column_name in dataframe.columns
+                    ]
+                }
+                for _, row in dataframe.iterrows()
+            ]
+        }
+
+        # Log payload size
+        logging.info("Payload created with %d rows.", len(payload['rows']))
+
+        # Make the API request to insert rows
+        req = requests.post(uri, headers=headers, json=payload)
+        req.raise_for_status()  # Throw if there was an error
+        logging.info("Inserted %d rows successfully.", len(dataframe))
+    except requests.exceptions.HTTPError as http_err:
+        logging.error("HTTP error occurred: %s", http_err)
+    except requests.exceptions.RequestException as req_err:
+        logging.error("Request error occurred: %s", req_err)
+    except Exception as e:
+        logging.error("An unexpected error occurred: %s", e)
